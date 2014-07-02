@@ -4377,7 +4377,12 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				}
 
-				refreshUniformsLights( m_uniforms, _lights );
+				if ( material.setLightUniforms !== undefined ) {
+					material.setLightUniforms( _lights, camera, fog, object );
+				} else {
+					refreshUniformsLights( m_uniforms, _lights );
+				}
+
 
 			}
 
