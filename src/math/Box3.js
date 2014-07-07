@@ -118,11 +118,31 @@ THREE.Box3.prototype = {
 
 			object.traverse( function ( node ) {
 
-				if ( node.geometry !== undefined && node.geometry.vertices !== undefined ) {
+				var i;
+				var il;
+				var vertices;
 
-					var vertices = node.geometry.vertices;
+				if ( node.geometry !== undefined && node.geometry.attributes !== undefined ) {
 
-					for ( var i = 0, il = vertices.length; i < il; i++ ) {
+					vertices = node.geometry.attributes.position.array;
+
+					for ( i = 0, il = vertices.length; i < il; ) {
+
+						v1.set(vertices[ i ], vertices[ i + 1 ], vertices[ i + 2 ]);
+
+						v1.applyMatrix4( node.matrixWorld );
+
+						scope.expandByPoint( v1 );
+
+						i = i + 3;
+
+					}
+
+				} else if ( node.geometry !== undefined && node.geometry.vertices !== undefined ) {
+
+					vertices = node.geometry.vertices;
+
+					for ( i = 0, il = vertices.length; i < il; i++ ) {
 
 						v1.copy( vertices[ i ] );
 
